@@ -2,6 +2,8 @@ package com.learnjava.identity_service.service;
 
 import java.util.List;
 
+import javax.management.RuntimeErrorException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,12 +19,14 @@ public class UserService {
 
   public User createUser(UserCreationRequest request) {
     User user = new User();
+    if (userRepository.existsByUsername(request.getUsername()))
+      throw new RuntimeException("user existed");
+
     user.setUsername(request.getUsername());
     user.setPassword(request.getPassword());
     user.setFirstName(request.getFirstName());
     user.setLastName(request.getLastName());
     user.setDob(request.getDob());
-
     return userRepository.save(user);
 
   }
