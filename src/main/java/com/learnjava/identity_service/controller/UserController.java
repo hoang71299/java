@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.learnjava.identity_service.dto.resquest.ApiResponse;
 import com.learnjava.identity_service.dto.resquest.UserCreationRequest;
 import com.learnjava.identity_service.dto.resquest.UserUpdateRequest;
 import com.learnjava.identity_service.entity.User;
@@ -26,8 +27,11 @@ public class UserController {
   private UserService userService;
 
   @PostMapping()
-  User createUser(@RequestBody @Valid UserCreationRequest request) {
-    return userService.createUser(request);
+  ApiResponse<User> createUser(@RequestBody @Valid UserCreationRequest request) {
+    ApiResponse apiResponse = new ApiResponse<>();
+
+    apiResponse.setResult(userService.createUser(request));
+    return apiResponse;
   }
 
   @GetMapping()
